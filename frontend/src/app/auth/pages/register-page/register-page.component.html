@@ -1,0 +1,77 @@
+<div class="">
+  <div class="text-center">
+    <h1>Register form</h1>
+  </div>
+  <form class="container mt-4" [formGroup]="registerForm" (ngSubmit)="onRegister()">
+    <div class="mb-3 row">
+      <label class="col-sm-3 col-form-label">First name</label>
+      <div class="col-sm-9">
+        <input
+          type="text"
+          class="form-control"
+          formControlName="firstName"
+          placeholder="First name"
+        />
+        <span *ngIf="isValidFiled('firstName')" class="form-text text-danger">
+          {{getFieldError('firstName')}}
+         </span>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label class="col-sm-3 col-form-label">Last name</label>
+      <div class="col-sm-9">
+        <input
+          type="text"
+          class="form-control"
+          formControlName="lastName"
+          placeholder="Last name"
+        />
+        <span *ngIf="isValidFiled('lastName')" class="form-text text-danger">
+          {{getFieldError('lastName')}}
+         </span>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label class="col-sm-3 col-form-label">User name</label>
+      <div class="col-sm-9">
+        <input
+          type="text"
+          class="form-control"
+          formControlName="login"
+          placeholder="User name"
+        />
+        <span *ngIf="isValidFiled('login')" class="form-text text-danger">
+          {{getFieldError('login')}}
+         </span>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label class="col-sm-3 col-form-label">Password</label>
+      <div class="col-sm-9">
+        <input
+          type="password"
+          class="form-control"
+          formControlName="password"
+          placeholder="Password"
+        />
+        <span *ngIf="isValidFiled('password')" class="form-text text-danger">
+          {{getFieldError('password')}}
+         </span>
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="registerForm.invalid"
+        class="btn btn-primary">
+        Login
+      </button>
+    </div>
+    <div  class="text-center mt-3">
+      <a href="/auth/login"> Are you already registered? Log in!</a>
+    </div>
+  </form>
+</div>
