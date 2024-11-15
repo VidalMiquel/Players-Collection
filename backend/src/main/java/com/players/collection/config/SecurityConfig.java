@@ -20,17 +20,17 @@ public class SecurityConfig {
     private final UserAuthProvider userAuthProvider;
     private final UserAuthenticationEntryPoint userAuthenticationEntryPoint;
 
-    // @Bean
-    // public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    //     http
-    //             .exceptionHandling(customizer -> customizer.authenticationEntryPoint(userAuthenticationEntryPoint))
-    //             .addFilterBefore(new JwtAuthFilter(userAuthProvider), BasicAuthenticationFilter.class)
-    //             .csrf(AbstractHttpConfigurer::disable)
-    //             .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-    //             .authorizeHttpRequests((requests) -> requests
-    //                     .requestMatchers(HttpMethod.POST, "/login", "/register", "/h2-console").permitAll()
-    //                     .anyRequest().authenticated())
-    //     ;
-    //     return http.build();
-    // }
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .exceptionHandling(customizer -> customizer.authenticationEntryPoint(userAuthenticationEntryPoint))
+                .addFilterBefore(new JwtAuthFilter(userAuthProvider), BasicAuthenticationFilter.class)
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers(HttpMethod.POST, "/login", "/register", "/h2-console").permitAll()
+                        .anyRequest().authenticated())
+        ;
+        return http.build();
+    }
 }
