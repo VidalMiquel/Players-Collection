@@ -13,37 +13,69 @@ export class LoginPageComponent {
 
 
   public loginForm = new FormGroup({
-    login: new FormControl<String>('', Validators.required),
-    password: new FormControl<String>('', Validators.required)
+    login: new FormControl<String>('', [
+      Validators.required,
+      Validators.minLength(3),
+    ]),
+    password: new FormControl<String>('', [
+      Validators.required,
+      Validators.minLength(8),
+    ])
   });
 
   constructor(
     private authService: AuthService,
     private router: Router,
-  ){}
+  ) { }
 
-  get currentLogin(): Login{
+  get currentLogin(): Login {
     const login = this.loginForm.value as Login;
     return login;
   }
 
-  onLogin(){
+  onLogin() {
     this.authService.request(
       "POST",
-		    "/login",
-		    {
-		        login: this.currentLogin.user,
-		        password: this.currentLogin.password
-		    }).then(
-		    response => {
-		        this.authService.setAuthToken(response.data.token);
-            console.log("login user created",response.data);
-            this.router.navigateByUrl('/collection');
-		    }).catch(
-		    error => {
-		        this.authService.setAuthToken(null);
-            this.router.navigateByUrl('/register');
+      "/login",
+      {
+        login: this.currentLogin.login,
+        password: this.currentLogin.password
+      }).then(
+        response => {
+          this.authService.setAuthToken(response.data.token);
+          this.router.navigateByUrl('/collection');
+        }).catch(
+          error => {
+            this.authService.setAuthToken(null);
+            this.router.navigateByUrl('/auth/register');
           }
-    );
+        );
+  }
+  
+  isValidFiled(field: string): boolean | null {
+    const control = this.loginForm.get(field);
+    if (!control) {
+      console.error(`Control ${field} not found`);
+      return null;
+    }
+    return control.errors && control.touched;
+  }
+
+  
+  getFieldError(field: string): string | null {
+    const control = this.loginForm.get(field);
+
+    if (!control) return null;
+    const errors = control.errors || {};
+
+    for (const key of Object.keys(errors)) {
+      switch (key) {
+        case 'required':
+          return 'This filed is required';
+        case 'minlength':
+          return `Minim ${errors['minlength'].requiredLength} characters`;
+      }
+    }
+    return null;
   }
 }

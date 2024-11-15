@@ -18,6 +18,11 @@ export class AuthService {
     if(this.getAuthToken() != null){
       headers = {"Authorization": "Bearer " + this.getAuthToken()};
     }
+    console.log("header: ", headers)
+    console.log("method: ", method)
+    console.log("url: ", url)
+    console.log("data: ", data)
+
     return axios({
       method: method,
       url:url,

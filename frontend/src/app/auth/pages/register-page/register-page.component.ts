@@ -23,10 +23,10 @@ export class RegisterPageComponent {
     ]),
   });
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) { }
 
 
-  get currentLogin(): Register{
+  get currentRegister(): Register {
     const login = this.registerForm.value as Register;
     return login;
   }
@@ -34,23 +34,22 @@ export class RegisterPageComponent {
   onRegister() {
     this.authService.request(
       "POST",
-        "/register",
-        {
-            firstName: this.currentLogin.firstName,
-            lastName: this.currentLogin.lastName,
-            login: this.currentLogin.user,
-            password: this.currentLogin.password
-        }).then(
+      "/register",
+      {
+        firstName: this.currentRegister.firstName,
+        lastName: this.currentRegister.lastName,
+        login: this.currentRegister.login,
+        password: this.currentRegister.password
+      }).then(
         response => {
-            this.authService.setAuthToken(response.data.token);
-            console.log("login user created",response.data);
-            this.router.navigateByUrl('/collection');
+          this.authService.setAuthToken(response.data.token);
+          this.router.navigateByUrl('/collection');
         }).catch(
-        error => {
+          error => {
             this.authService.setAuthToken(null);
-            this.router.navigateByUrl('/register');
+            this.router.navigateByUrl('/auth/register');
           }
-    );
+        );
   }
 
   isValidFiled(field: string): boolean | null {
