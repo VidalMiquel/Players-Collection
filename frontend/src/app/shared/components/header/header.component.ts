@@ -11,6 +11,7 @@ export class HeaderComponent {
   constructor(private router:Router){}
 
   onLogout(){
+    window.localStorage.clear();
     this.router.navigateByUrl('/auth/login');
   }
 }

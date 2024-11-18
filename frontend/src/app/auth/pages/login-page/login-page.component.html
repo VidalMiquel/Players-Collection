@@ -12,6 +12,9 @@
           formControlName="login"
           placeholder="User name"
         />
+        <span *ngIf="isValidFiled('login')" class="form-text text-danger">
+          {{getFieldError('login')}}
+         </span>
       </div>
     </div>
     <div class="mb-3 row">
@@ -23,6 +26,9 @@
           formControlName="password"
           placeholder="Password"
         />
+        <span *ngIf="isValidFiled('password')" class="form-text text-danger">
+          {{getFieldError('password')}}
+         </span>
       </div>
     </div>
 
@@ -32,7 +38,8 @@
         color="primary"
         type="submit"
         [disabled]="loginForm.invalid"
-        class="btn btn-primary">
+        class="btn btn-primary"
+      >
         Login
       </button>
     </div>
@@ -41,4 +48,6 @@
       <a href="/auth/register"> Do not have an accout? Register!</a>
     </div>
   </form>
+
+  <shared-error-dialog [message]="errorMessage" [isVisible]="showModal" > </shared-error-dialog>
 </div>

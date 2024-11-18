@@ -7,10 +7,11 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
-  styles: ``
+  styles: ``,
 })
 export class LoginPageComponent {
-
+  errorMessage: string | null = null;
+  showModal: boolean = false;
 
   public loginForm = new FormGroup({
     login: new FormControl<String>('', [
@@ -20,13 +21,10 @@ export class LoginPageComponent {
     password: new FormControl<String>('', [
       Validators.required,
       Validators.minLength(8),
-    ])
+    ]),
   });
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-  ) { }
+  constructor(private authService: AuthService, private router: Router) {}
 
   get currentLogin(): Login {
     const login = this.loginForm.value as Login;
@@ -34,24 +32,28 @@ export class LoginPageComponent {
   }
 
   onLogin() {
-    this.authService.request(
-      "POST",
-      "/login",
-      {
-        login: this.currentLogin.login,
-        password: this.currentLogin.password
-      }).then(
-        response => {
-          this.authService.setAuthToken(response.data.token);
-          this.router.navigateByUrl('/collection');
-        }).catch(
-          error => {
-            this.authService.setAuthToken(null);
-            this.router.navigateByUrl('/auth/register');
-          }
-        );
+    this.showModal = false;
+
+    const { login, password } = this.currentLogin;
+
+    this.authService.request('POST', '/login', { login, password })
+      .then((response) => {
+        this.authService.setAuthToken(response.data.token);
+        this.router.navigateByUrl('/collection');
+      })
+      .catch(() => {
+        this.handleLoginError();
+      });
   }
-  
+
+  private handleLoginError() {
+    this.authService.setAuthToken(null);
+    this.errorMessage = "User doesn't exist. Register it!";
+    this.showModal = true; // Show the modal
+    this.loginForm.reset();
+  }
+
+
   isValidFiled(field: string): boolean | null {
     const control = this.loginForm.get(field);
     if (!control) {
@@ -61,7 +63,6 @@ export class LoginPageComponent {
     return control.errors && control.touched;
   }
 
-  
   getFieldError(field: string): string | null {
     const control = this.loginForm.get(field);
 
