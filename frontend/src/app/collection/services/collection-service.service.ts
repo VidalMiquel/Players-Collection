@@ -1,17 +1,12 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
 
+@Injectable({providedIn: 'root'})
+export class CollectionService {
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthService {
-
-
-  constructor( ) {
+   constructor( ) {
     axios.defaults.baseURL ="http://localhost:8080"
     axios.defaults.headers.post["Content-type"] = "application/json"
-
   }
 
   request(method: string, url:string, data: any): Promise<any>{
@@ -34,18 +29,9 @@ export class AuthService {
 
   getAuthToken():string | null{
     if(typeof window != undefined){
-      console.log(window)
-      return window.localStorage.getItem("auth_token");
+      return localStorage.getItem("auth_token");
     }
     return null;
   }
 
-  setAuthToken(token:string | null): void{
-    if (token != null){
-      window.localStorage.setItem("auth_token",token);
-      console.log("token:", this.getAuthToken)
-    }else{
-      window.localStorage.removeItem("auth_token");
-    }
-  }
 }

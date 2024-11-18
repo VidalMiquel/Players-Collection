@@ -10,6 +10,10 @@ import { Register } from '../../interfaces/Register';
   styles: ``,
 })
 export class RegisterPageComponent {
+
+  errorMessage: string | null = null;
+  showModal: boolean = false;
+
   public registerForm = new FormGroup({
     firstName: new FormControl<String>('', [Validators.required]),
     lastName: new FormControl<String>('', Validators.required),
@@ -32,24 +36,27 @@ export class RegisterPageComponent {
   }
 
   onRegister() {
-    this.authService.request(
-      "POST",
-      "/register",
-      {
-        firstName: this.currentRegister.firstName,
-        lastName: this.currentRegister.lastName,
-        login: this.currentRegister.login,
-        password: this.currentRegister.password
-      }).then(
-        response => {
-          this.authService.setAuthToken(response.data.token);
-          this.router.navigateByUrl('/collection');
-        }).catch(
-          error => {
-            this.authService.setAuthToken(null);
-            this.router.navigateByUrl('/auth/register');
-          }
-        );
+    this.showModal = false;
+    this.loginRequest();
+  }
+
+  loginRequest(){
+    const { firstName, lastName, login, password } = this.currentRegister;
+
+    this.authService.request('POST', '/register', { firstName, lastName, login, password })
+      .then(response => {
+        this.authService.setAuthToken(response.data.token);
+        this.router.navigateByUrl('/collection');
+      })
+      .catch(() => {
+        this.handleRegistrationError();
+      });
+  }
+
+  private handleRegistrationError() {
+    this.authService.setAuthToken(null);
+    this.errorMessage = "USer already exists. Login!";
+    this.showModal = true; // Show the modal
   }
 
   isValidFiled(field: string): boolean | null {

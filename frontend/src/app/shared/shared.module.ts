@@ -1,18 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from './header/header.component';
+import { HeaderComponent } from './components/header/header.component';
+import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 
 
 
 @NgModule({
   declarations: [
-    HeaderComponent
+    HeaderComponent,
+    ErrorDialogComponent
   ],
   imports: [
     CommonModule
   ],
   exports: [
-    HeaderComponent
+    HeaderComponent,
+    ErrorDialogComponent
   ]
 })
 export class SharedModule { }
