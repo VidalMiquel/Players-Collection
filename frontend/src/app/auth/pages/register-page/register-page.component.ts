@@ -55,7 +55,8 @@ export class RegisterPageComponent {
 
   private handleRegistrationError() {
     this.authService.setAuthToken(null);
-    this.errorMessage = "USer already exists. Login!";
+    this.registerForm.reset();
+    this.errorMessage = "User already exists. Login!";
     this.showModal = true; // Show the modal
   }
 

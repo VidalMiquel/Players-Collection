@@ -8,14 +8,14 @@ import { ErrorDialogComponent } from './components/error-dialog/error-dialog.com
 @NgModule({
   declarations: [
     HeaderComponent,
-    ErrorDialogComponent
+    ErrorDialogComponent,
   ],
   imports: [
     CommonModule
   ],
   exports: [
     HeaderComponent,
-    ErrorDialogComponent
+    ErrorDialogComponent,
   ]
 })
 export class SharedModule { }

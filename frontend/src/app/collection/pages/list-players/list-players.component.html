@@ -1,6 +1,10 @@
-<div style="display: flex; justify-content: center; align-items: center;">
-  <div class="col-md-4;justify-content: center; ">
-    <div class="card text-center mt-3" style="width: 18rem;">
+<div style="display: flex; justify-content: center; align-items: flex-start;">
+  <div style="flex: 1; max-width: 300px; margin-right: 10px;">
+    <collection-filter (filterChange)="onFilterChange($event)"></collection-filter>
+  </div>
+  <div class="container mt-4">
+    <h2>Backend response</h2>
+    <div class="card text-center mt-3">
       <div class="card-body">
         <h5 class="card-title">Backend response</h5>
         <p class="card-text">Content: </p>
