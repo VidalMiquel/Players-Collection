@@ -1,0 +1,20 @@
+<!-- filter.component.html -->
+<div class="container mt-4">
+  <h2>Players filter</h2>
+  <form [formGroup]="filterForm" (ngSubmit)="onSubmit()" class="mt-3">
+    <div class="mb-3">
+      <label for="team" class="form-label">Team:</label>
+      <select id="team" formControlName="team" class="form-select">
+        <option *ngFor="let team of teams" [value]="team">{{ team }}</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="position" class="form-label">Position:</label>
+      <select id="position" formControlName="position" class="form-select">
+        <option *ngFor="let position of positions" [value]="position">{{ position }}</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Filter</button>
+  </form>
+</div>
+
