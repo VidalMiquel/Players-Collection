@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { CollectionService } from '../../services/collection-service.service';
 import { Filter } from '../../interfaces/Filter';
 import { Player } from '../../interfaces/Player';
+import { Position } from '../../interfaces/Position';
+import { Team } from '../../interfaces/Team';
 
 @Component({
   selector: 'app-list-players',
@@ -10,7 +12,26 @@ import { Player } from '../../interfaces/Player';
 })
 export class ListPlayersComponent {
   data: string[] = [];
-  players: Player[] = [];
+  // players: Player[] = [
+  //   {
+  //     name: 'Lionel Messi',
+  //     nacionality: 'Argentina',
+  //     position: Position.CAM,
+  //     team: Team.ALAVES,
+  //   }, {
+  //     name: 'Lionel Messi',
+  //     nacionality: 'Argentina',
+  //     position: Position.CAM,
+  //     team: Team.ALAVES,
+  //   }, {
+  //     name: 'Lionel Messi',
+  //     nacionality: 'Argentina',
+  //     position: Position.CAM,
+  //     team: Team.ALAVES,
+  //   }
+  // ];
+
+  players : Player [] = []
 
   constructor(private collectionService: CollectionService) {}
 
@@ -22,20 +43,15 @@ export class ListPlayersComponent {
     this.getPlayers();
   }
 
-  ngOnInit(): void {
-    this.collectionService.request('GET', '/messages', {}).then((response) => {
-      this.data = response.data;
-    });
-  }
 
   getPlayers(): void {
-    console.log("applaied filter", this.appliedFilter)
+    console.log('applaied filter', this.appliedFilter);
     const url = this.buildUrlWithParams('', this.appliedFilter);
     this.collectionService
-      .request('GET', url, ({}))
+      .request('GET', url, {})
       .then((response) => {
-        console.log("responseGET: ", response);
-        // this.players = response.data;
+        console.log('responseGET: ', response);
+        this.players = response.data;
       })
       .catch(this.handleError);
   }

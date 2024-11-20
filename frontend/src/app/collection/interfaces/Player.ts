@@ -3,7 +3,7 @@ import { Team } from "./Team";
 
 export interface Player{
   name:string;
-  postition:Position,
+  position:Position,
   team: Team
   nacionality : string;
 }
