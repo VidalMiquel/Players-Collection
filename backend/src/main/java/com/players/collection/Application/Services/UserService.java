@@ -38,7 +38,7 @@ public class UserService {
     public UserDTO register(SingUpDTO singUpDTO){
         Optional<User> oUser = userRepository.findByLogin(singUpDTO.login());
         if(oUser.isPresent()){
-            throw new AppException("Login already exists", HttpStatus.BAD_REQUEST);
+            throw new AppException("User already exists", HttpStatus.BAD_REQUEST);
         }
         User user = userMapper.signUpToUser(singUpDTO);
 

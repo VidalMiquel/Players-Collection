@@ -38,6 +38,7 @@ import { Component, Input } from '@angular/core';
 export class ErrorDialogComponent {
     @Input() message: string | null = null;
     @Input() isVisible: boolean = false;
+    @Input() error?: Error;
 
     close() {
       this.isVisible = false;
