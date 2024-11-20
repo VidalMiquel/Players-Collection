@@ -8,22 +8,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.players.collection.Application.Services.PlayerService;
 import com.players.collection.Domain.DTO.PlayerDTO;
-import com.players.collection.Domain.Filter.PlayerFilter;
-import com.players.collection.config.JwtAuthFilter;
+import com.players.collection.Domain.DTO.PlayerFilterDTO;
 
 
 
 @RestController
 public class PlayersController {
 
-    private static final Logger log = LoggerFactory.getLogger(JwtAuthFilter.class);
+    private static final Logger log = LoggerFactory.getLogger(PlayersController.class);
 
 
     @Autowired
@@ -37,9 +33,10 @@ public class PlayersController {
     }
 
     @GetMapping("/")
-    public List<PlayerDTO> getPlayers(@ModelAttribute PlayerFilter filter) {
-        log.info("filter2: ", filter);
-        return playerService.getPlayers(filter);
+    public List<PlayerDTO> getPlayers(PlayerFilterDTO playerFilterDTO) {
+        log.info("position: {}", playerFilterDTO.position());
+        log.info("team: {}", playerFilterDTO.team());
+        return playerService.getPlayers(playerFilterDTO);
     }
     
 

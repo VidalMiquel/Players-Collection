@@ -32,9 +32,9 @@ export class ListPlayersComponent {
     console.log("applaied filter", this.appliedFilter)
     const url = this.buildUrlWithParams('', this.appliedFilter);
     this.collectionService
-      .request('GET', url, {})
+      .request('GET', url, ({}))
       .then((response) => {
-        console.log("response", response);
+        console.log("responseGET: ", response);
         // this.players = response.data;
       })
       .catch(this.handleError);
