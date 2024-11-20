@@ -10,7 +10,10 @@ import { Router } from '@angular/router';
   styles: ``,
 })
 export class LoginPageComponent {
-  errorMessage: string | null = null;
+  error: Error = {
+    name: "Login error",
+    message: ""
+  }
   showModal: boolean = false;
 
   public loginForm = new FormGroup({
@@ -41,14 +44,14 @@ export class LoginPageComponent {
         this.authService.setAuthToken(response.data.token);
         this.router.navigateByUrl('/collection');
       })
-      .catch(() => {
-        this.handleLoginError();
+      .catch(error => {
+        this.handleLoginError(error);
       });
   }
 
-  private handleLoginError() {
+  private handleLoginError(error: any) {
     this.authService.setAuthToken(null);
-    this.errorMessage = "User doesn't exist. Register it!";
+    this.error.message = error.response.data.message;
     this.showModal = true; // Show the modal
     this.loginForm.reset();
   }

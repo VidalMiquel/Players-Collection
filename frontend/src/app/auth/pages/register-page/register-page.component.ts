@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { Register } from '../../interfaces/Register';
+import { Error } from '../../../collection/interfaces/Error';
 
 @Component({
   selector: 'app-register-page',
@@ -11,7 +12,10 @@ import { Register } from '../../interfaces/Register';
 })
 export class RegisterPageComponent {
 
-  errorMessage: string | null = null;
+  error: Error = {
+    name: "Register error",
+    message: ""
+  }
   showModal: boolean = false;
 
   public registerForm = new FormGroup({
@@ -37,10 +41,10 @@ export class RegisterPageComponent {
 
   onRegister() {
     this.showModal = false;
-    this.loginRequest();
+    this.registerRequest();
   }
 
-  loginRequest(){
+  registerRequest(){
     const { firstName, lastName, login, password } = this.currentRegister;
 
     this.authService.request('POST', '/register', { firstName, lastName, login, password })
@@ -48,15 +52,15 @@ export class RegisterPageComponent {
         this.authService.setAuthToken(response.data.token);
         this.router.navigateByUrl('/collection');
       })
-      .catch(() => {
-        this.handleRegistrationError();
+      .catch(error => {
+        this.handleRegistrationError(error);
       });
   }
 
-  private handleRegistrationError() {
+  private handleRegistrationError(error: any) {
     this.authService.setAuthToken(null);
     this.registerForm.reset();
-    this.errorMessage = "User already exists. Login!";
+    this.error.message = error.response.data.message
     this.showModal = true; // Show the modal
   }
 
