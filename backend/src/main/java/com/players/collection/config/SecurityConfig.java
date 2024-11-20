@@ -29,6 +29,7 @@ public class SecurityConfig {
                 .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(HttpMethod.POST, "/login", "/register", "/h2-console").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/h2-console").permitAll()
                         .anyRequest().authenticated())
         ;
         return http.build();
