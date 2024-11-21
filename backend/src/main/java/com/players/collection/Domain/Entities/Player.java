@@ -34,6 +34,6 @@ public class Player {
     private String team;
 
     @Column(nullable = false)
-    private String nacionality;
+    private String nationality;
 
 }

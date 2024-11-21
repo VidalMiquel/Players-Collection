@@ -1,4 +1,5 @@
 export enum Position {
+  DEFAULT = "All positions",
   GK = "Goalkeeper",
   CB = "Center Back",
   LB = "Left Back",
@@ -11,5 +12,5 @@ export enum Position {
   DC = "Striker",
   LW = "Left Wing",
   RW = "Right Wing",
-  DEFAULT = "No position"
+  OTHER = "Other position"
 }

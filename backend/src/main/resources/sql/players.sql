@@ -1,4 +1,4 @@
-INSERT INTO player (id, name, position, team, nacionality) VALUES
+INSERT INTO player (id, name, position, team, nationality) VALUES
 (1, 'Player 1', 'Goalkeeper', 'Deportivo Alaves', 'Spanish'),
 (2, 'Player 2', 'Center Back', 'FC Barcelona', 'Brazilian'),
 (3, 'Player 3', 'Left Back', 'Athletic Club', 'Argentine'),

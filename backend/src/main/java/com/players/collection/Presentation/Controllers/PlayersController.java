@@ -25,8 +25,9 @@ public class PlayersController {
 
     @GetMapping("/")
     public List<PlayerDTO> getPlayers(PlayerFilterDTO playerFilterDTO) {
-        log.info("position: {}", playerFilterDTO.position());
-        log.info("team: {}", playerFilterDTO.team());
+        log.info("recepction: position: {}", playerFilterDTO.position());
+        log.info("recepction: team: {}", playerFilterDTO.team());
+        log.info("recepction: nationality: {}", playerFilterDTO.nationality());
         return playerService.getPlayers(playerFilterDTO);
     }
     

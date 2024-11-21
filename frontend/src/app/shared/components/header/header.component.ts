@@ -4,13 +4,19 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'shared-header',
   templateUrl: './header.component.html',
-  styles: ``
+  styles: `
+    .icon-image {
+      width: 100px; /* Adjust width as needed */
+      height: auto; /* Maintains aspect ratio */
+    }
+  `,
 })
 export class HeaderComponent {
+  constructor(private router: Router) {}
 
-  constructor(private router:Router){}
 
-  onLogout(){
+
+  onLogout() {
     window.localStorage.clear();
     this.router.navigateByUrl('/auth/login');
   }

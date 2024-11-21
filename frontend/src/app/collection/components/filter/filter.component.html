@@ -14,6 +14,12 @@
         <option *ngFor="let position of positions" [value]="position">{{ position }}</option>
       </select>
     </div>
+    <div class="mb-3">
+      <label for="nationality" class="form-label">Nationality:</label>
+      <select id="nationality" formControlName="nationality" class="form-select">
+        <option *ngFor="let nationality of nationalities" [value]="nationality">{{ nationality }}</option>
+      </select>
+    </div>
     <button type="submit" class="btn btn-primary">Filter</button>
   </form>
 </div>

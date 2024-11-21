@@ -30,11 +30,9 @@ public class PlayerService {
         log.info("filter getPlayers: {}", filter); // Usa {} para el log
         log.info("filter getPlayers - team: {}", filter.team()); // Usa {} para el log
         log.info("filter getPlayers - position: {}", filter.position()); // Usa {} para el log
+        log.info("filter getPlayers - nationality: {}", filter.nationality()); // Usa {} para el log
 
-        // Specification<Player> spec = Specification.where(PlayerSpecifications.hasTeam(filter.team()))
-        //         .or(PlayerSpecifications.hasPosition(filter.position()));
-        
-        final Specification<Player> spec = PlayerSpecifications.filterPalyer(filter.team(), filter.position());
+        final Specification<Player> spec = PlayerSpecifications.filterPlayer(filter);
 
         List<Player> players = playerRepository.findAll(spec);
         log.info("players: {}", players.toString()); // Usa {} para el log
