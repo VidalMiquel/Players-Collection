@@ -2,11 +2,13 @@
   <div class="row g-0">
     <div class="text-center">
       <div class="card-body">
-        <h5 class="card-title">{{player?.name}}</h5>
+        <h5 class="card-title">{{ player?.name }}</h5>
         <p class="card-text">
-          <strong>Position:</strong> {{player?.position}} <br>
-          <strong>Nacionality</strong> {{player?.nacionality}} <br>
-          <strong>Team</strong> {{player?.team}}
+          <strong>Position: </strong> {{ player?.position }} <br>
+          <strong>Nationality: </strong>
+          <img class="flag-image" src="/assets/images/flags/{{ player?.nationality }}.png" [alt]="player?.name" /> <br>
+          <strong>Team: </strong>
+          <img class="flag-image" src="/assets/images/teams/{{ player?.team }}.svg" [alt]="player?.name" /> <br>
         </p>
       </div>
     </div>

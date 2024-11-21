@@ -1,15 +1,13 @@
 export enum Team {
+  DEFAULT = "All teams",
   ALAVES = "Deportivo Alaves",
-  ALMERIA = "UD Almeria",
+  LEGANES = "CD Leganes",
   ATHLETIC = "Athletic Club",
   ATLÉTICO = "Atletico de Madrid",
   BARCELONA = "FC Barcelona",
   BETIS = "Real Betis",
-  CADIZ = "Cadiz CF",
   CELTA = "RC Celta de Vigo",
   Getafe = "Getafe CF",
-  GRANADA = "Granada CF",
-  LEVANTE = "Levante UD",
   MALLORCA = "RCD Mallorca",
   OSASUNA = "CA Osasuna",
   RAYO = "Rayo Vallecano",
@@ -18,5 +16,8 @@ export enum Team {
   SEVILLA = "Sevilla FC",
   VALENCIA = "Valencia CF",
   VILLARREAL = "Villarreal CF",
-  DEFAULT = "No team"
+  REAL_VALLADOLID = "Real Valladolid",
+  UD_LAS_PALMAS  = "UD Las Palmas",
+  CD_LEGANES = "CD Leganes",
+  OTHER = "Other team"
 }

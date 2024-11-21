@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { Team } from '../../interfaces/Team';
-import { Position } from '../../interfaces/Position';
+import { Team } from '../../enums/Team';
+import { Position } from '../../enums/Position';
 import { Filter } from '../../interfaces/Filter';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Nationality } from '../../enums/Nationality';
 
 @Component({
   selector: 'collection-filter',
@@ -15,23 +16,22 @@ export class FilterComponent {
   filterForm: FormGroup;
   teams = Object.values(Team);
   positions = Object.values(Position);
+  nationalities = Object.values(Nationality);
 
   constructor(private fb: FormBuilder) {
     this.filterForm = this.fb.group({
       team: [Team.DEFAULT],
-      position: [Position.DEFAULT]
+      position: [Position.DEFAULT],
+      nationality: [Nationality.DEFAULT]
     });
   }
 
-  getValues(): Filter {
-    return {
-      team: this.filterForm.get('team')?.value,
-      position: this.filterForm.get('position')?.value
-    };
+  get currentFilter(): Filter {
+    return this.filterForm.value as Filter;
   }
 
   onSubmit() {
-    const filterValues = this.getValues();
+    const filterValues = this.currentFilter;
     this.filterChange.emit(filterValues);
   }
 }

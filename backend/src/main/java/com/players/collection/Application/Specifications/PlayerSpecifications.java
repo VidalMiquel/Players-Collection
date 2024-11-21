@@ -1,41 +1,29 @@
 package com.players.collection.Application.Specifications;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.domain.Specification;
 
+import com.players.collection.Domain.DTO.PlayerFilterDTO;
 import com.players.collection.Domain.Entities.Player;
 
 import io.micrometer.common.util.StringUtils;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 
 public class PlayerSpecifications {
 
-    private static final Logger log = LoggerFactory.getLogger(PlayerSpecifications.class);
-
-    public static Specification<Player> hasTeam(String team) {
-        log.info("inicial team: {}", team);
+    public static Specification<Player> filterPlayer(PlayerFilterDTO filter) {
         return (root, query, criteriaBuilder) -> {
-            return team == null ? null : criteriaBuilder.equal(root.get("team"), team);
+            Predicate teamPredicate = createLikePredicate(criteriaBuilder, root.get("team"), filter.team());
+            Predicate positionPredicate = createLikePredicate(criteriaBuilder, root.get("position"), filter.position());
+            Predicate nationalityPredicate = createLikePredicate(criteriaBuilder, root.get("nationality"), filter.nationality());
+
+            return criteriaBuilder.and(teamPredicate, positionPredicate, nationalityPredicate);
         };
     }
 
-    public static Specification<Player> hasPosition(String position) {
-        return (root, query, criteriaBuilder) -> {
-            return position == null ? null : criteriaBuilder.equal(root.get("position"), position);
-        };
-    }
-
-    public static Specification<Player> filterPalyer(String team, String position) {
-        return (root, query, criteriaBuilder) -> {
-            Predicate brandPredicate
-                    = criteriaBuilder.like(root.get("team"), StringUtils.isBlank(team)
-                            ? likePattern("") : team);
-            Predicate namePredicate
-                    = criteriaBuilder.like(root.get("position"), StringUtils.isBlank(position)
-                            ? likePattern("") : position);
-            return criteriaBuilder.and(namePredicate, brandPredicate);
-        };
+    private static Predicate createLikePredicate(CriteriaBuilder criteriaBuilder, Path<String> path, String value) {
+        return criteriaBuilder.like(path, StringUtils.isBlank(value) ? likePattern("") : value);
     }
 
     private static String likePattern(String value) {

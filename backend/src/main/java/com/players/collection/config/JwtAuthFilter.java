@@ -1,11 +1,13 @@
 package com.players.collection.config;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -19,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final UserAuthProvider userAuthProvider;
-    private static final Logger log = LoggerFactory.getLogger(JwtAuthFilter.class);
 
     @Override
     protected void doFilterInternal(
@@ -27,11 +28,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-        log.info("Authorization header: {}", header);
         if (header != null) {
             String[] authElements = header.split(" ");
-            log.info("authElements: {}", Arrays.toString(authElements));
-
             if (authElements.length == 2
                     && "Bearer".equals(authElements[0])) {
                 try {
@@ -43,16 +41,22 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                 userAuthProvider.validateTokenStrongly(authElements[1]));
                     }
                 } catch (RuntimeException e) {
-                    SecurityContextHolder.clearContext();
-                    throw e;
+                    // SecurityContextHolder.clearContext();
+                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                    response.setContentType("application/json");
+
+                    // Create a JSON response
+                    String jsonResponse = String.format("{\"error\": \"%s\"}", e.getMessage());
+
+                    // Write the JSON response to the output
+                    PrintWriter out = response.getWriter();
+                    out.print(jsonResponse);
+                    out.flush();
+                    return; 
                 }
             }
         }
-        
-        log.info("Request URL: {}", request.getRequestURL());
-        log.info("Request Method: {}", request.getMethod());
-        log.info("Request Params: {}", request.getQueryString());
-        
+
         filterChain.doFilter(request, response);
     }
 

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
 import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
+import { SearchMessagesComponent } from './components/search-messages/search-messages.component';
 
 
 
@@ -9,6 +10,7 @@ import { ErrorDialogComponent } from './components/error-dialog/error-dialog.com
   declarations: [
     HeaderComponent,
     ErrorDialogComponent,
+    SearchMessagesComponent,
   ],
   imports: [
     CommonModule
@@ -16,6 +18,7 @@ import { ErrorDialogComponent } from './components/error-dialog/error-dialog.com
   exports: [
     HeaderComponent,
     ErrorDialogComponent,
+    SearchMessagesComponent
   ]
 })
 export class SharedModule { }

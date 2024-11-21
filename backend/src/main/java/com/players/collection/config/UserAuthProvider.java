@@ -7,11 +7,13 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.players.collection.Application.Services.UserService;
 import com.players.collection.Domain.DTO.UserDTO;
@@ -35,7 +37,7 @@ public class UserAuthProvider {
 
     public String createToken(UserDTO user) {
         Date now = new Date();
-        Date validity = new Date(now.getTime() + 3600000); // 1 hour
+        Date validity = new Date(now.getTime() + 30000); // 1 hour
 
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
         return JWT.create()
@@ -47,13 +49,22 @@ public class UserAuthProvider {
                 .sign(algorithm);
     }
 
-    public Authentication validateToken(String token){
+    public Authentication validateToken(String token) throws AuthenticationException {
+        JWTVerifier verifier = createVerifier();
+        try {
+            DecodedJWT decoded = verifier.verify(token);
+            return createAuthentication(decoded);
+        } catch (TokenExpiredException e) {
+            throw new AuthenticationException("Token has expired, please login again.") {};
+        }
+    }
+
+    private JWTVerifier createVerifier() {
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
+        return JWT.require(algorithm).build();
+    }
 
-        JWTVerifier verifier = JWT.require(algorithm).build();
-
-        DecodedJWT decoded = verifier.verify(token);
-
+    private Authentication createAuthentication(DecodedJWT decoded) {
         UserDTO user = UserDTO.builder()
             .login(decoded.getIssuer())
             .firstName(decoded.getClaim("firstName").asString())

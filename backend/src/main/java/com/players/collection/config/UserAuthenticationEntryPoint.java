@@ -19,7 +19,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
-    private static final Logger log = LoggerFactory.getLogger(UserAuthenticationEntryPoint.class);
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @Override
@@ -27,10 +26,8 @@ public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
             HttpServletRequest request,
             HttpServletResponse response,
             AuthenticationException authException) throws IOException, ServletException {
-        log.info("Entering UserAuthenticationEntryPoint.commence()");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         OBJECT_MAPPER.writeValue(response.getOutputStream(), new ErrorDTO("Unauthorized path"));
-        log.info("Exiting UserAuthenticationEntryPoint.commence()");
     }
 }
