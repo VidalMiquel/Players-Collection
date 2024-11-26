@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'shared-header',
@@ -11,10 +12,10 @@ import { Router } from '@angular/router';
     }
   `,
 })
-export class HeaderComponent {
+export class HeaderComponent  {
+
+
   constructor(private router: Router) {}
-
-
 
   onLogout() {
     window.localStorage.clear();

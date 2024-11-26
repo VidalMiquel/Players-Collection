@@ -1,5 +1,5 @@
 export enum Nationality {
-  DEFAULT = "All nacionalities",
+  DEFAULT = "All nationalities",
   SPANISH = "Spanish",
   ARGENTINE = "Argentine",
   FRENCH = "French",
