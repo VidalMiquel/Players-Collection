@@ -7,7 +7,12 @@ Inspired by football card collections, the application allows users to filter de
 
 ## Steps to run the project
 
-### Springboot 
+### Using docker
+`$docker compose up -d --build`
+
+### Locally
+
+#### Springboot 
 - Steps to run the backend:
  
     1 - Navigated to the correspondent path `/backend`
@@ -18,7 +23,7 @@ Inspired by football card collections, the application allows users to filter de
 
 - The backend project is located at PORT 8080 (http://localhost:8080)
 
-### H2 Database
+#### H2 Database
 - The database used is an in-memory one provided by Spring Boot. It was chosen for its simplicity and adaptability to any project. However, it is not intended for use in a production environment. 
 
 - DB configuraton at `application.properties` although the user and the password are the default ones.
@@ -29,7 +34,7 @@ Inspired by football card collections, the application allows users to filter de
   
     2 - Execut th efollowing command to add recieps: `RUNSCRIPT FROM 'src/main/resources/sql/players.sql';`
 
-### Angular 
+#### Angular 
 - Steps to run the frontend project (Execute the following commands after the previous sections)
 
     1 - Located at the correspondent path `/frontend`
