@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Login } from '../../interfaces/Login';
 import { AuthService } from '../../services/auth.service';
@@ -11,9 +11,9 @@ import { Router } from '@angular/router';
 })
 export class LoginPageComponent {
   error: Error = {
-    name: "Login error",
-    message: ""
-  }
+    name: 'Login error',
+    message: '',
+  };
   showModal: boolean = false;
 
   public loginForm = new FormGroup({
@@ -36,15 +36,21 @@ export class LoginPageComponent {
 
   onLogin() {
     this.showModal = false;
-
     const { login, password } = this.currentLogin;
 
-    this.authService.request('POST', '/login', { login, password })
+    this.loginRequest();
+  }
+
+  private loginRequest() {
+    const { login, password } = this.currentLogin;
+
+    this.authService
+      .request('POST', '/login', { login, password })
       .then((response) => {
         this.authService.setAuthToken(response.data.token);
         this.router.navigateByUrl('/collection');
       })
-      .catch(error => {
+      .catch((error) => {
         this.handleLoginError(error);
       });
   }
@@ -55,7 +61,6 @@ export class LoginPageComponent {
     this.showModal = true; // Show the modal
     this.loginForm.reset();
   }
-
 
   isValidFiled(field: string): boolean | null {
     const control = this.loginForm.get(field);

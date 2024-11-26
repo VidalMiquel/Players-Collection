@@ -33,8 +33,8 @@ export class AuthService {
   }
 
   getAuthToken():string | null{
+    console.log(window)
     if(typeof window != undefined){
-      console.log(window)
       return window.localStorage.getItem("auth_token");
     }
     return null;
@@ -43,7 +43,6 @@ export class AuthService {
   setAuthToken(token:string | null): void{
     if (token != null){
       window.localStorage.setItem("auth_token",token);
-      console.log("token:", this.getAuthToken)
     }else{
       window.localStorage.removeItem("auth_token");
     }
